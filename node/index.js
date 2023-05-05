@@ -85,6 +85,8 @@ function init() {
                             }
 
                             rows = results;
+
+                            connection.end();
                         });
                     }
                 });
@@ -100,18 +102,19 @@ connection.connect((error) => {
         process.exit(1);
     } else {
         init();
-        app.get('/', (req, res) => {
-            let lines = '';
-            for (let i = 0; i < rows.length; i++) {
-                lines += `<li>${rows[i].name}</li>`;
-            }
-
-            html = `<h1>Full Cycle</h1><ul>${lines}</ul>`;
-            res.send(html);
-            // res.send('<h1>Full Cycle</h1>');
-        });
-        app.listen(port, () => {
-            console.log('Rodando na porta ' + port);
-        });
     }
+});
+
+app.get('/', (req, res) => {
+    let lines = '';
+    for (let i = 0; i < rows.length; i++) {
+        lines += `<li>${rows[i].name}</li>`;
+    }
+
+    html = `<h1>Full Cycle</h1><ul>${lines}</ul>`;
+    res.send(html);
+    // res.send('<h1>Full Cycle</h1>');
+});
+app.listen(port, () => {
+    console.log('Rodando na porta ' + port);
 });
